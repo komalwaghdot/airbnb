@@ -11,6 +11,7 @@ const sampleListings = [
       price: 2500,
       location: "Florence",
       country: "Italy",
+      
     },
     {
       title: "Secluded Treehouse Getaway",
@@ -18,7 +19,7 @@ const sampleListings = [
         "Live among the treetops in this unique treehouse retreat. A true nature lover's paradise.",
       image: {
         filename: "listingimage",
-        url: "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTV8fGhvdGVsc3xlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=800&q=60",
+        url:"https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTV8fGhvdGVsc3xlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=800&q=60",
       },
       price: 800,
       location: "Portland",
@@ -258,7 +259,7 @@ const sampleListings = [
         "Explore the vibrant city of Tokyo from this modern and centrally located apartment.",
       image: {
         filename: "listingimage",
-        url: "https://images.unsplash.com/photo-1480796927426-f609979314bd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTV8fHRva3lvfGVufDB8fDB8fHww&auto=format&fit=crop&w=800&q=60",
+        url:"https://images.unsplash.com/photo-1480796927426-f609979314bd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTV8fHRva3lvfGVufDB8fDB8fHww&auto=format&fit=crop&w=800&q=60",
       },
       price: 2000,
       location: "Tokyo",
@@ -270,7 +271,7 @@ const sampleListings = [
         "Spend your days by the lake in this cozy cabin in the scenic White Mountains of New Hampshire.",
       image: {
         filename: "listingimage",
-        url: "https://images.unsplash.com/photo-1578645510447-e20b4311e3ce?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NDF8fGNhbXBpbmd8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=800&q=60",
+        url:"https://images.unsplash.com/photo-1578645510447-e20b4311e3ce?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NDF8fGNhbXBpbmd8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=800&q=60",
       },
       price: 1200,
       location: "New Hampshire",
@@ -282,7 +283,7 @@ const sampleListings = [
         "Indulge in luxury in this overwater villa in the Maldives with stunning views of the Indian Ocean.",
       image: {
         filename: "listingimage",
-        url: "https://images.unsplash.com/photo-1439066615861-d1af74d74000?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8bGFrZXxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=800&q=60",
+        url:"https://images.unsplash.com/photo-1439066615861-d1af74d74000?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8bGFrZXxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=800&q=60",
       },
       price: 6000,
       location: "Maldives",
@@ -294,7 +295,7 @@ const sampleListings = [
         "Hit the slopes in style with this luxurious ski chalet in the world-famous Aspen ski resort.",
       image: {
         filename: "listingimage",
-        url: "https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTh8fGxha2V8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=800&q=60",
+        url:"https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTh8fGxha2V8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=800&q=60",
       },
       price: 4000,
       location: "Aspen",

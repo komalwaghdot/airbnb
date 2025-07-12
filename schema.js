@@ -7,8 +7,9 @@ module.exports.listingSchema=Joi.object({
         location: Joi.string().required(),
         country: Joi.string().required(),
         price:Joi.number().required().min(0),
+        image: Joi.any() // 👈 allow it, but it's redundant
         
-        //image: Joi.string().uri().optional()
+        /*image: Joi.string().uri().optional()
         image: Joi.object({
             filename: Joi.string().optional(),
             //url: Joi.string().uri().optional() // Ensure it allows valid URLs
@@ -16,7 +17,7 @@ module.exports.listingSchema=Joi.object({
                 .uri()
                 .allow("")
                 .optional()
-        }).optional() ,
+        }).optional() ,*/
          
     }).required(),
 });
