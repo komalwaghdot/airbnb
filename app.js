@@ -67,10 +67,10 @@ const sessionOptions={
     },
 };
 
-/* Root route
+
 app.get("/", (req, res) => {
-    res.send("Hi, I am root");
-});*/
+    res.redirect("/listings");
+});
 
 
 
