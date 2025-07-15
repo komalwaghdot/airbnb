@@ -58,7 +58,7 @@ store.on("error",()=>{
 const sessionOptions={
     store,
     secret:process.env.SECRET,
-    resave:"false",
+    resave:false,
     saveUnintialized:true,
     cookie:{
         expires:Date.now()+7*24*60*60*1000,
@@ -94,18 +94,29 @@ app.use((req,res,next)=>{
     next();
 });
 
-app.use((req, res, next) => {
+// Disable HTTPS redirect locally
+const forceSSL = (req, res, next) => {
   if (req.headers['x-forwarded-proto'] !== 'https') {
     return res.redirect('https://' + req.headers.host + req.url);
   }
   next();
-});
+};
+
+// Use only if deployed
+if (process.env.NODE_ENV === 'production') {
+  app.use(forceSSL);
+}
+
 
 
 
 async function main() {
-    await mongoose.connect(dbUrl);
-}
+    await mongoose.connect(dbUrl,{
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    ssl: true,
+    });
+};
 
 main()
     .then(() => {
@@ -157,6 +168,8 @@ app.use((err,req,res,next)=>{
     //res.status(statusCode).send(message);
 });
 
-app.listen(4000, () => {
-    console.log("Server is listening on port 4000");
+const port = process.env.PORT || 4000;
+
+app.listen(port, () => {
+    console.log(`Server is listening on port ${port}`);
 });
