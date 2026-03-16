@@ -1,34 +1,59 @@
 <% layout("/layouts/boilerplate.ejs") %>
 
-    <div id="filters-container">
-        <% const categories=[ { id: "Trending" , icon: "fa-fire" }, { id: "Rooms" , icon: "fa-bed" }, {
-            id: "Iconic Cities" , icon: "fa-mountain-city" }, { id: "Mountains" , icon: "fa-mountain" }, { id: "Nature"
-            , icon: "fa-tree" }, { id: "Pool" , icon: "fa-person-swimming" }, { id: "Camping" , icon: "fa-campground" },
-            { id: "Farm" , icon: "fa-cow" }, { id: "Arctic" , icon: "fa-snowman" }, { id: "Dome" , icon: "fa-igloo" }, {
-            id: "Boat" , icon: "fa-ship" } ]; %>
+    <div id="filters-wrapper" class="position-relative d-flex align-items-center">
+        <button id="slideLeft" class="slider-btn d-none d-md-flex" aria-label="Scroll left"><i
+                class="fa-solid fa-chevron-left"></i></button>
+        <div id="filters-container" class="flex-grow-1">
+            <% const categories=[ { id: "Trending" , icon: "fa-fire" }, { id: "Rooms" , icon: "fa-bed" }, {
+                id: "Iconic Cities" , icon: "fa-mountain-city" }, { id: "Mountains" , icon: "fa-mountain" }, {
+                id: "Nature" , icon: "fa-tree" }, { id: "Pool" , icon: "fa-person-swimming" }, { id: "Camping" ,
+                icon: "fa-campground" }, { id: "Farm" , icon: "fa-cow" }, { id: "Arctic" , icon: "fa-snowman" }, {
+                id: "Dome" , icon: "fa-igloo" }, { id: "Boat" , icon: "fa-ship" } ]; %>
 
-            <% for(let cat of categories) { %>
-                <div class="filter-box <%= typeof category !== 'undefined' && category === cat.id ? 'active' : '' %>">
-                    <a
-                        href="/listings?category=<%= encodeURIComponent(cat.id) %><%= typeof search !== 'undefined' && search ? '&search='+encodeURIComponent(search) : '' %><%= typeof sort !== 'undefined' && sort ? '&sort='+encodeURIComponent(sort) : '' %>">
-                        <i class="fa-solid <%= cat.icon %>"></i>
-                        <p>
-                            <%= cat.id %>
-                        </p>
-                    </a>
-                </div>
-                <% } %>
+                <% for(let cat of categories) { %>
+                    <div
+                        class="filter-box <%= typeof category !== 'undefined' && category === cat.id ? 'active' : '' %>">
+                        <a
+                            href="/listings?category=<%= encodeURIComponent(cat.id) %><%= typeof search !== 'undefined' && search ? '&search='+encodeURIComponent(search) : '' %><%= typeof sort !== 'undefined' && sort ? '&sort='+encodeURIComponent(sort) : '' %>">
+                            <i class="fa-solid <%= cat.icon %>"></i>
+                            <p>
+                                <%= cat.id %>
+                            </p>
+                        </a>
+                    </div>
+                    <% } %>
 
-                    <% if ((typeof category !=='undefined' && category) || (typeof search !=='undefined' && search)) {
-                        %>
-                        <div class="filter-box" style="margin-left: auto;">
-                            <a href="/listings">
-                                <i class="fa-solid fa-circle-xmark text-danger" style="font-size: 1.4rem;"></i>
-                                <p>Reset</p>
-                            </a>
-                        </div>
-                        <% } %>
+                        <% if ((typeof category !=='undefined' && category) || (typeof search !=='undefined' && search))
+                            { %>
+                            <div class="filter-box" style="margin-left: auto; padding-right: 1.5rem;">
+                                <a href="/listings">
+                                    <i class="fa-solid fa-circle-xmark text-danger" style="font-size: 1.4rem;"></i>
+                                    <p>Reset</p>
+                                </a>
+                            </div>
+                            <% } %>
+        </div>
+        <button id="slideRight" class="slider-btn d-none d-md-flex" aria-label="Scroll right"><i
+                class="fa-solid fa-chevron-right"></i></button>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const leftBtn = document.getElementById('slideLeft');
+            const rightBtn = document.getElementById('slideRight');
+            const filtersContainer = document.getElementById('filters-container');
+
+            if (leftBtn && rightBtn && filtersContainer) {
+                leftBtn.addEventListener('click', () => {
+                    filtersContainer.scrollBy({ left: -300, behavior: 'smooth' });
+                });
+
+                rightBtn.addEventListener('click', () => {
+                    filtersContainer.scrollBy({ left: 300, behavior: 'smooth' });
+                });
+            }
+        });
+    </script>
 
     <div class="controls-bar">
         <div class="d-flex gap-3 align-items-center flex-wrap">
