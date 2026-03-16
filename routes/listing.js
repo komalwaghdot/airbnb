@@ -7,9 +7,7 @@ const Listing = require("../models/listing.js");
 const Review = require("../models/review.js");
 // ✅ Add this line
 //const Review = require("./models/review.js");
-const { isLoggedIn } = require("../middleware.js");
-const { isOwner } = require("../middleware.js");
-const { validateListing } = require("../middleware.js");
+const { isLoggedIn, isHost, isOwner, validateListing } = require("../middleware.js");
 const listingController = require("../controllers/listings.js");
 const multer = require('multer');
 const { storage } = require("../cloudConfig.js");
@@ -28,7 +26,7 @@ const upload = multer({ storage });
 router.get("/", wrapAsync(listingController.index));
 
 // Route for creating a new listing form
-router.get("/new", isLoggedIn, listingController.renderNewForm);
+router.get("/new", isLoggedIn, isHost, listingController.renderNewForm);
 
 // Route for showing a specific listing
 router.get("/:id", wrapAsync(listingController.showListing));
@@ -43,6 +41,7 @@ router.post(
     next();
   },
   isLoggedIn,
+  isHost,
   upload.single("listing[image]"),
   validateListing,
   wrapAsync(listingController.createListing),

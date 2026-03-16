@@ -28,142 +28,173 @@
 
         <div class="col-md-8">
             <ul class="nav nav-tabs nav-tabs-custom mb-4" id="profileTabs" role="tablist">
-                <li class="nav-item">
-                    <button class="nav-link active" id="listings-tab" data-bs-toggle="tab" data-bs-target="#listings"
-                        type="button">My Listings (<%= userListings.length %>)</button>
-                </li>
-                <li class="nav-item">
-                    <button class="nav-link" id="wishlist-tab" data-bs-toggle="tab" data-bs-target="#wishlist"
-                        type="button">Wishlist (<%= userProfile.wishlist.length %>)</button>
-                </li>
-                <li class="nav-item">
-                    <button class="nav-link" id="bookings-tab" data-bs-toggle="tab" data-bs-target="#bookings"
-                        type="button">My Bookings (<%= userBookings.length %>)</button>
-                </li>
+                <% if (userProfile.role==='host' ) { %>
+                    <li class="nav-item">
+                        <button class="nav-link active" id="listings-tab" data-bs-toggle="tab"
+                            data-bs-target="#listings" type="button">My Listings (<%= userListings.length %>)</button>
+                    </li>
+                    <% } %>
+
+                        <li class="nav-item">
+                            <button class="nav-link <%= userProfile.role === 'user' ? 'active' : '' %>"
+                                id="wishlist-tab" data-bs-toggle="tab" data-bs-target="#wishlist" type="button">Wishlist
+                                (<%= userProfile.wishlist.length %>)</button>
+                        </li>
+                        <li class="nav-item">
+                            <button class="nav-link" id="bookings-tab" data-bs-toggle="tab" data-bs-target="#bookings"
+                                type="button">My Bookings (<%= userBookings.length %>)</button>
+                        </li>
             </ul>
 
             <div class="tab-content" id="profileTabsContent">
-                <!-- Listings Tab -->
-                <div class="tab-pane fade show active" id="listings">
-                    <div class="row g-4">
-                        <% if(userListings.length===0) { %>
-                            <div class="col-12 text-center py-5">
-                                <p class="text-muted">You haven't listed any properties yet.</p>
-                                <a href="/listings/new" class="btn btn-primary shadow-sm"
-                                    style="background:#fe424d; border:none; border-radius: 2rem; padding: 0.6rem 1.5rem;">Airbnb
-                                    your home</a>
-                            </div>
-                            <% } else { %>
-                                <% for(let listing of userListings) { %>
-                                    <div class="col-md-6">
-                                        <a href="/listings/<%=listing._id%>" class="listing-link">
-                                            <div class="card listing-card h-100 shadow-sm">
-                                                <img src="<%=listing.image.url%>" class="card-img-top"
-                                                    alt="<%=listing.title%>" style="height:12rem; object-fit: cover;">
-                                                <div class="card-body">
-                                                    <b>
-                                                        <%= listing.title %>
-                                                    </b>
-                                                    <p class="text-muted mb-0 small">
-                                                        <%= listing.location %>
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </div>
-                                    <% } %>
-                                        <% } %>
-                    </div>
-                </div>
-
-                <!-- Wishlist Tab -->
-                <div class="tab-pane fade" id="wishlist">
-                    <div class="row g-4">
-                        <% if(userProfile.wishlist.length===0) { %>
-                            <div class="col-12 text-center py-5">
-                                <p class="text-muted">No saved listings yet.</p>
-                                <a href="/listings" class="btn btn-outline-dark"
-                                    style="border-radius: 2rem; padding: 0.6rem 1.5rem;">Explore properties</a>
-                            </div>
-                            <% } else { %>
-                                <% for(let listing of userProfile.wishlist) { %>
-                                    <div class="col-md-6">
-                                        <a href="/listings/<%=listing._id%>" class="listing-link">
-                                            <div class="card listing-card h-100 shadow-sm">
-                                                <img src="<%=listing.image.url%>" class="card-img-top"
-                                                    alt="<%=listing.title%>" style="height:12rem; object-fit: cover;">
-                                                <div class="card-body">
-                                                    <b>
-                                                        <%= listing.title %>
-                                                    </b>
-                                                    <p class="text-muted mb-0 small">
-                                                        <%= listing.location %>
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </div>
-                                    <% } %>
-                                        <% } %>
-                    </div>
-                </div>
-
-                <!-- Bookings Tab -->
-                <div class="tab-pane fade" id="bookings">
-                    <div class="row g-4">
-                        <% if(userBookings.length===0) { %>
-                            <div class="col-12 text-center py-5">
-                                <p class="text-muted">No upcoming bookings yet.</p>
-                                <a href="/listings" class="btn btn-outline-dark"
-                                    style="border-radius: 2rem; padding: 0.6rem 1.5rem;">Start exploring</a>
-                            </div>
-                            <% } else { %>
-                                <% for(let booking of userBookings) { %>
-                                    <% if(booking.listing) { %>
-                                        <div class="col-12">
-                                            <div class="booking-item-card p-3 mb-3">
-                                                <div class="row g-0 align-items-center">
-                                                    <div class="col-md-3">
-                                                        <img src="<%= booking.listing.image.url %>"
-                                                            class="img-fluid rounded-3" alt="..."
-                                                            style="height: 110px; width: 100%; object-fit: cover;">
-                                                    </div>
-                                                    <div class="col-md-6 px-lg-4 py-3 py-lg-0">
-                                                        <h5 class="mb-1"><b>
-                                                                <%= booking.listing.title %>
-                                                            </b></h5>
-                                                        <p class="text-muted mb-2 small"><i
-                                                                class="fa-solid fa-calendar-days me-1 text-primary"></i>
-                                                            <%= booking.checkIn.toDateString() %> - <%=
-                                                                    booking.checkOut.toDateString() %>
+                <% if (userProfile.role==='host' ) { %>
+                    <!-- Listings Tab -->
+                    <div class="tab-pane fade show active" id="listings">
+                        <div class="row g-4">
+                            <% if(userListings.length===0) { %>
+                                <div class="col-12 text-center py-5">
+                                    <p class="text-muted">You haven't listed any properties yet.</p>
+                                    <a href="/listings/new" class="btn btn-primary shadow-sm"
+                                        style="background:#fe424d; border:none; border-radius: 2rem; padding: 0.6rem 1.5rem;">Airbnb
+                                        your home</a>
+                                </div>
+                                <% } else { %>
+                                    <% for(let listing of userListings) { %>
+                                        <div class="col-md-6">
+                                            <a href="/listings/<%=listing._id%>" class="listing-link">
+                                                <div class="card listing-card h-100 shadow-sm">
+                                                    <img src="<%=listing.image.url%>" class="card-img-top"
+                                                        alt="<%=listing.title%>"
+                                                        style="height:12rem; object-fit: cover;">
+                                                    <div class="card-body">
+                                                        <b>
+                                                            <%= listing.title %>
+                                                        </b>
+                                                        <p class="text-muted mb-0 small">
+                                                            <%= listing.location %>
                                                         </p>
-                                                        <div class="d-flex gap-2">
-                                                            <span
-                                                                class="badge rounded-pill bg-light text-dark fw-normal border">
-                                                                <%= booking.guests %> Guests
+                                                        <div class="d-flex gap-2 mt-2">
+                                                            <span class="badge bg-light text-dark border">
+                                                                &#8377;<%= listing.price.toLocaleString("en-IN") %>
+                                                                    /night
                                                             </span>
-                                                            <span
-                                                                class="badge rounded-pill bg-light text-success fw-bold border">&#8377;
-                                                                <%= booking.totalPrice.toLocaleString("en-IN") %>
-                                                                    Total</span>
                                                         </div>
                                                     </div>
-                                                    <div class="col-md-3 text-lg-end">
-                                                        <form action="/bookings/<%= booking._id %>?_method=DELETE"
-                                                            method="POST"
-                                                            onsubmit="return confirm('Do you really want to cancel this booking?')">
-                                                            <button class="btn btn-outline-danger btn-sm px-4"
-                                                                style="border-radius: 2rem;">Cancel Stay</button>
-                                                        </form>
-                                                    </div>
                                                 </div>
+                                            </a>
+                                            <div class="mt-2 text-end pe-2">
+                                                <a href="/listings/<%=listing._id%>/edit"
+                                                    class="btn btn-sm btn-outline-secondary rounded-pill me-1"><i
+                                                        class="fa-solid fa-pen"></i> Edit</a>
+                                                <form action="/listings/<%=listing._id%>?_method=DELETE" method="POST"
+                                                    class="d-inline" onsubmit="return confirm('Delete this listing?');">
+                                                    <button type="submit"
+                                                        class="btn btn-sm btn-outline-danger rounded-pill"><i
+                                                            class="fa-solid fa-trash"></i></button>
+                                                </form>
                                             </div>
                                         </div>
                                         <% } %>
                                             <% } %>
-                                                <% } %>
+                        </div>
                     </div>
-                </div>
+                    <% } %>
+
+                        <!-- Wishlist Tab -->
+                        <div class="tab-pane fade <%= userProfile.role === 'user' ? 'show active' : '' %>"
+                            id="wishlist">
+                            <div class="row g-4">
+                                <% if(userProfile.wishlist.length===0) { %>
+                                    <div class="col-12 text-center py-5">
+                                        <p class="text-muted">No saved listings yet.</p>
+                                        <a href="/listings" class="btn btn-outline-dark"
+                                            style="border-radius: 2rem; padding: 0.6rem 1.5rem;">Explore
+                                            properties</a>
+                                    </div>
+                                    <% } else { %>
+                                        <% for(let listing of userProfile.wishlist) { %>
+                                            <div class="col-md-6">
+                                                <a href="/listings/<%=listing._id%>" class="listing-link">
+                                                    <div class="card listing-card h-100 shadow-sm">
+                                                        <img src="<%=listing.image.url%>" class="card-img-top"
+                                                            alt="<%=listing.title%>"
+                                                            style="height:12rem; object-fit: cover;">
+                                                        <div class="card-body">
+                                                            <b>
+                                                                <%= listing.title %>
+                                                            </b>
+                                                            <p class="text-muted mb-0 small">
+                                                                <%= listing.location %>
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                            <% } %>
+                                                <% } %>
+                            </div>
+                        </div>
+
+                        <!-- Bookings Tab -->
+                        <div class="tab-pane fade" id="bookings">
+                            <div class="row g-4">
+                                <% if(userBookings.length===0) { %>
+                                    <div class="col-12 text-center py-5">
+                                        <p class="text-muted">No upcoming bookings yet.</p>
+                                        <a href="/listings" class="btn btn-outline-dark"
+                                            style="border-radius: 2rem; padding: 0.6rem 1.5rem;">Start exploring</a>
+                                    </div>
+                                    <% } else { %>
+                                        <% for(let booking of userBookings) { %>
+                                            <% if(booking.listing) { %>
+                                                <div class="col-12">
+                                                    <div class="booking-item-card p-3 mb-3">
+                                                        <div class="row g-0 align-items-center">
+                                                            <div class="col-md-3">
+                                                                <img src="<%= booking.listing.image.url %>"
+                                                                    class="img-fluid rounded-3" alt="..."
+                                                                    style="height: 110px; width: 100%; object-fit: cover;">
+                                                            </div>
+                                                            <div class="col-md-6 px-lg-4 py-3 py-lg-0">
+                                                                <h5 class="mb-1"><b>
+                                                                        <%= booking.listing.title %>
+                                                                    </b></h5>
+                                                                <p class="text-muted mb-2 small"><i
+                                                                        class="fa-solid fa-calendar-days me-1 text-primary"></i>
+                                                                    <%= booking.checkIn.toDateString() %> - <%=
+                                                                            booking.checkOut.toDateString() %>
+                                                                </p>
+                                                                <div class="d-flex gap-2">
+                                                                    <span
+                                                                        class="badge rounded-pill bg-light text-dark fw-normal border">
+                                                                        <%= booking.guests %> Guests
+                                                                    </span>
+                                                                    <span
+                                                                        class="badge rounded-pill bg-light text-success fw-bold border">&#8377;
+                                                                        <%= booking.totalPrice.toLocaleString("en-IN")
+                                                                            %>
+                                                                            Total
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-3 text-lg-end">
+                                                                <form
+                                                                    action="/bookings/<%= booking._id %>?_method=DELETE"
+                                                                    method="POST"
+                                                                    onsubmit="return confirm('Do you really want to cancel this booking?')">
+                                                                    <button class="btn btn-outline-danger btn-sm px-4"
+                                                                        style="border-radius: 2rem;">Cancel
+                                                                        Stay</button>
+                                                                </form>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <% } %>
+                                                    <% } %>
+                                                        <% } %>
+                            </div>
+                        </div>
             </div>
         </div>
     </div>

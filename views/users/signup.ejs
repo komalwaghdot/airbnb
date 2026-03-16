@@ -32,6 +32,37 @@
                             placeholder="Create a password" required />
                     </div>
                 </div>
+
+                <div class="mb-4 mt-4">
+                    <label class="form-label d-block mb-3">Join as a...</label>
+                    <div class="d-flex gap-3">
+                        <div class="form-check border rounded p-3 flex-fill text-center"
+                            style="cursor: pointer; background: #f8f9fa;">
+                            <input class="form-check-input float-none mx-auto d-block mb-2" type="radio" name="role"
+                                id="roleUser" value="user" checked>
+                            <label class="form-check-label d-block" style="cursor: pointer;" for="roleUser">
+                                <i class="fa-solid fa-suitcase-rolling d-block mb-1"
+                                    style="font-size: 1.5rem; color: #555;"></i>
+                                <span style="font-weight: 600; color: #333;">Guest</span>
+                                <small class="d-block text-muted mt-1" style="font-size: 0.75rem;">I want to book
+                                    places</small>
+                            </label>
+                        </div>
+                        <div class="form-check border rounded p-3 flex-fill text-center"
+                            style="cursor: pointer; background: #f8f9fa;">
+                            <input class="form-check-input float-none mx-auto d-block mb-2" type="radio" name="role"
+                                id="roleHost" value="host">
+                            <label class="form-check-label d-block" style="cursor: pointer;" for="roleHost">
+                                <i class="fa-solid fa-house-user d-block mb-1"
+                                    style="font-size: 1.5rem; color: #fe424d;"></i>
+                                <span style="font-weight: 600; color: #333;">Host</span>
+                                <small class="d-block text-muted mt-1" style="font-size: 0.75rem;">I want to list
+                                    properties</small>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
                 <button class="btn btn-auth mt-2"><i class="fa-solid fa-user-plus"></i> Sign Up</button>
             </form>
             <p class="text-center mt-3" style="font-size: 0.88rem; color: #717171;">

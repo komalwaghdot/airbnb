@@ -22,6 +22,11 @@ const userSchema = new Schema({
     profileImage: {
         type: String,
         default: ""
+    },
+    role: {
+        type: String,
+        enum: ['user', 'host'],
+        default: 'user'
     }
 });
 
