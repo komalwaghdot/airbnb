@@ -93,6 +93,7 @@ module.exports.createListing = async (req, res) => {
       if (data && data.length > 0) {
         geometry.coordinates = [parseFloat(data[0].lon), parseFloat(data[0].lat)];
       }
+      console.log(`Geocoding result for ${location}:`, geometry.coordinates);
     } catch (err) {
       console.error("Geocoding error:", err);
     }
