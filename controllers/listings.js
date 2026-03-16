@@ -82,6 +82,21 @@ module.exports.createListing = async (req, res) => {
 
     const { title, description, price, location, country, category } = req.body.listing;
 
+    // Fetch coordinates from Nominatim
+    let geometry = { type: "Point", coordinates: [0, 0] };
+    try {
+      const query = encodeURIComponent(`${location}, ${country}`);
+      const response = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${query}&limit=1`, {
+        headers: { 'User-Agent': 'Wanderlust-App' }
+      });
+      const data = await response.json();
+      if (data && data.length > 0) {
+        geometry.coordinates = [parseFloat(data[0].lon), parseFloat(data[0].lat)];
+      }
+    } catch (err) {
+      console.error("Geocoding error:", err);
+    }
+
     const newListing = new Listing({
       title,
       description,
@@ -89,7 +104,8 @@ module.exports.createListing = async (req, res) => {
       location,
       country,
       category: category || undefined,
-      owner: req.user._id
+      owner: req.user._id,
+      geometry
     });
 
     // Use the uploaded file directly
@@ -118,17 +134,39 @@ module.exports.renderEditForm = async (req, res) => {
 
 module.exports.updateListing = async (req, res) => {
   const { id } = req.params;
-  const listing = await Listing.findByIdAndUpdate(
-    id,
-    { ...req.body.listing },
-    { new: true }
-  );
+  const { location, country } = req.body.listing;
+
+  const listing = await Listing.findById(id);
+
+  // If location changed, update geometry
+  if (location !== listing.location || country !== listing.country) {
+    try {
+      const query = encodeURIComponent(`${location}, ${country}`);
+      const response = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${query}&limit=1`, {
+        headers: { 'User-Agent': 'Wanderlust-App' }
+      });
+      const data = await response.json();
+      if (data && data.length > 0) {
+        listing.geometry = {
+          type: "Point",
+          coordinates: [parseFloat(data[0].lon), parseFloat(data[0].lat)]
+        };
+      }
+    } catch (err) {
+      console.error("Geocoding error during update:", err);
+    }
+  }
+
+  // Update other fields
+  Object.assign(listing, req.body.listing);
+
   if (typeof req.file !== "undefined") {
     let url = req.file.path;
     let filename = req.file.filename;
     listing.image = { url, filename };
-    await listing.save();
   }
+
+  await listing.save();
   req.flash("success", "Listing updated successfully!");
   res.redirect(`/listings/${listing._id}`);
 };

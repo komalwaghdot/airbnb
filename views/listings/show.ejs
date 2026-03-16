@@ -135,5 +135,42 @@
                   <% } %>
               </div>
             </div>
+            <!-- Map Section -->
+            <div class="col-8 offset-2 mt-4 mb-3">
+              <hr>
+              <h4 class="review-section-title"><i class="fa-solid fa-map-location-dot"></i> Where you'll be</h4>
+              <div id="map"
+                style="height: 400px; width: 100%; border-radius: 1rem; margin-top: 1.5rem; box-shadow: 0 4px 12px rgba(0,0,0,0.08); border: 1px solid #eee;">
+              </div>
+            </div>
 
+            <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+              integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+            <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+              integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+            <script>
+              const coordinates = <% - JSON.stringify(listing.geometry && listing.geometry.coordinates ? listing.geometry.coordinates : [0, 0]) %>;
+              const title = "<%= listing.title %>";
+
+              document.addEventListener("DOMContentLoaded", () => {
+                if (coordinates[0] !== 0 || coordinates[1] !== 0) {
+                  const map = L.map('map').setView([coordinates[1], coordinates[0]], 11);
+                  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    maxZoom: 19,
+                    attribution: '&copy; OpenStreetMap'
+                  }).addTo(map);
+
+                  const marker = L.circleMarker([coordinates[1], coordinates[0]], {
+                    color: '#fe424d',
+                    fillColor: '#fe424d',
+                    fillOpacity: 0.8,
+                    radius: 12
+                  }).addTo(map);
+
+                  marker.bindPopup(`<b>${title}</b><br>Exact location provided after booking.`).openPopup();
+                } else {
+                  document.getElementById('map').innerHTML = '<div class="p-5 text-center text-muted">Map location not available for this listing.</div>';
+                }
+              });
+            </script>
   </div>
