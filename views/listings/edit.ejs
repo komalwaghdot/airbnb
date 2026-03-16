@@ -1,36 +1,64 @@
 <% layout("/layouts/boilerplate.ejs") %>
 
-<div class="row">
-    <div class="col-8 offset-2">
-        <h3>Edit Listing</h3>
-        <form method="POST" action="/listings/<%= listing._id %>?_method=PUT" novalidate class="needs-validation" enctype="multipart/form-data">
-            <div class="mb-3">
-                <label for="title" class="form-label">Title</label>
-                <input name="listing[title]" value="<%= listing.title %>" type="text" class="form-control" required/>
+    <div class="row">
+        <div class="col-8 offset-2">
+            <div class="form-card">
+                <h3><i class="fa-solid fa-pen-to-square" style="color: #fe424d;"></i> Edit Listing</h3>
+                <form method="POST" action="/listings/<%= listing._id %>?_method=PUT" novalidate
+                    class="needs-validation" enctype="multipart/form-data">
+                    <div class="mb-3">
+                        <label for="title" class="form-label">Title</label>
+                        <input name="listing[title]" value="<%= listing.title %>" type="text" class="form-control"
+                            required />
+                    </div>
+                    <div class="mb-3">
+                        <label for="description" class="form-label">Description</label>
+                        <textarea name="listing[description]" class="form-control" rows="4"
+                            required><%= listing.description %></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="image" class="form-label">Update Image</label>
+                        <div class="file-upload-area">
+                            <i class="fa-solid fa-cloud-arrow-up"
+                                style="font-size: 1.5rem; color: #717171; margin-bottom: 0.5rem; display: block;"></i>
+                            <input name="listing[image]" type="file" class="form-control"
+                                style="border: none; background: transparent; text-align: center;" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="mb-3 col-md-4">
+                            <label for="category" class="form-label">Category</label>
+                            <select name="listing[category]" class="form-select" required>
+                                <option value="" disabled <%=!listing.category ? 'selected' : '' %>>Select Category
+                                </option>
+                                <% const categories=["Trending", "Rooms" , "Iconic Cities" , "Mountains" , "Nature"
+                                    , "Pool" , "Camping" , "Farm" , "Arctic" , "Dome" , "Boat" ]; %>
+                                    <% categories.forEach(cat=> { %>
+                                        <option value="<%= cat %>" <%=listing.category===cat ? 'selected' : '' %>><%=
+                                                cat %>
+                                        </option>
+                                        <% }) %>
+                            </select>
+                        </div>
+                        <div class="mb-3 col-md-4">
+                            <label for="price" class="form-label">Price (₹ per night)</label>
+                            <input name="listing[price]" value="<%= listing.price %>" type="number" class="form-control"
+                                required />
+                        </div>
+                        <div class="mb-3 col-md-4">
+                            <label for="country" class="form-label">Country</label>
+                            <input name="listing[country]" value="<%= listing.country %>" type="text"
+                                class="form-control" required />
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="location" class="form-label">Location</label>
+                        <input name="listing[location]" value="<%= listing.location %>" type="text" class="form-control"
+                            required />
+                    </div>
+                    <button class="btn add-btn mt-3" type="submit"><i class="fa-solid fa-check-circle"></i> Update
+                        Listing</button>
+                </form>
             </div>
-            <div class="mb-3">
-                <label for="description" class="form-label">Description</label>
-                <textarea name="listing[description]" class="form-control" required><%= listing.description %></textarea>
-            </div>
-            <div class="mb-3">
-                <label for="image" class="form-label">Image URL</label>
-                <input name="listing[image]"  type="file" class="form-control" />
-            </div>
-            <div class="row">
-                <div class="mb-3 col-md-4">
-                    <label for="price" class="form-label">Price</label>
-                    <input name="listing[price]" value="<%= listing.price %>" type="number" class="form-control" required/>
-                </div>
-                <div class="mb-3 col-md-8">
-                    <label for="country" class="form-label">Country</label>
-                    <input name="listing[country]" value="<%= listing.country %>" type="text" class="form-control" required/>
-                </div>
-            </div>
-            <div class="mb-3">
-                <label for="location" class="form-label">Location</label>
-                <input name="listing[location]" value="<%= listing.location %>" type="text" class="form-control" required/>
-            </div>
-            <button class="btn btn-danger add-btn mt-3" type="submit">Update Listing</button>
-        </form>
+        </div>
     </div>
-</div>

@@ -1,24 +1,42 @@
 <% layout("/layouts/boilerplate") %>
 
-<div class="row mt-3">
-    <h1 class="col-6 offset-3">SignUp on Wanderlust</h1>
-    <div class="col-6 offset-3">
-        <form  action="/signup" method="POST" class="needs-validation" novalidate>
-            <div class="mb-3">
-                <label for="username" class="form-label">username</label>
-                <input name="username" id="username" type="text" class="form-control" required/>
+    <div class="auth-container">
+        <div class="auth-card">
+            <div class="auth-header">
+                <i class="fa-solid fa-compass"></i>
+                <h2>Create Account</h2>
+                <p>Join Wanderlust and start exploring the world</p>
             </div>
-            <div class="mb-3">
-                <label for="email" class="form-label">email</label>
-                <input name="email" id="email" type="email" class="form-control" required/>
-            </div>
-            <div class="mb-3">
-                <label for="password" class="form-label">Password</label>
-                <input name="password" id="password" type="password" class="form-control" required/>
-            </div>
-            <button class="btn btn-success ">SignUp</button>
-        </form>
-
+            <form action="/signup" method="POST" class="needs-validation" novalidate>
+                <div class="mb-3">
+                    <label for="username" class="form-label">Username</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="fa-solid fa-user"></i></span>
+                        <input name="username" id="username" type="text" class="form-control"
+                            placeholder="Choose a username" required />
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="fa-solid fa-envelope"></i></span>
+                        <input name="email" id="email" type="email" class="form-control" placeholder="Enter your email"
+                            required />
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="password" class="form-label">Password</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="fa-solid fa-lock"></i></span>
+                        <input name="password" id="password" type="password" class="form-control"
+                            placeholder="Create a password" required />
+                    </div>
+                </div>
+                <button class="btn btn-auth mt-2"><i class="fa-solid fa-user-plus"></i> Sign Up</button>
+            </form>
+            <p class="text-center mt-3" style="font-size: 0.88rem; color: #717171;">
+                Already have an account? <a href="/login"
+                    style="color: #fe424d; font-weight: 600; text-decoration: none;">Log In</a>
+            </p>
+        </div>
     </div>
-
-</div>

@@ -1,40 +1,51 @@
-<style>
-  .btn-search{
-    background-color:#fe424d;
-    color: white;
-  }
-  .btn-search:hover{
-    background-color:#fe424d;
-    color: white;
-  }
-</style>
-
-<nav class="navbar navbar-expand-md bg-body-light border-bottom sticky-top">
-    <div class="container-fluid">
-      <a class="navbar-brand" href="/listings/new"><i class="fa-solid fa-compass"></i></a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup">
-      <span class="navbar-toggle-icon"></span>  
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-        <div class="navbar-nav">
-          <a class="nav-link" href="/listings">Explore</a>  
-        </div>
-        <div class="navbar-nav ms-auto">
-           <form class="d-flex" role="search">
-           <input class="form-control me-2" type="search" placeholder="Search destination" />
-           <button class="btn btn-search" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
-          </form>
-        </div>
-        <div class="navbar-nav ms-auto">
-          <a class="nav-link" href="/listings/new">Airbnb your home</a> 
-          <% if(!currUser) {%>
-          <a class="nav-link "  href="/signup"><b>Sign up</b></a>
-          <a class="nav-link" href="/login"><b>Log in</b></a>
+<nav class="navbar navbar-expand-md sticky-top">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="/listings">
+      <i class="fa-solid fa-compass"></i>
+      <span class="brand-name">Wanderlust</span>
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
+      aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+      <div class="navbar-nav">
+        <a class="nav-link" href="/listings"><i class="fa-solid fa-globe"></i> Explore</a>
+      </div>
+      <div class="navbar-nav ms-auto">
+        <form class="d-flex search-form" role="search" action="/listings" method="GET">
+          <input class="form-control me-2" type="search" name="search"
+            value="<%= typeof search !== 'undefined' ? search : '' %>" placeholder="Search destinations..."
+            aria-label="Search" />
+          <button class="btn btn-search" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+        </form>
+      </div>
+      <div class="navbar-nav ms-auto">
+        <a class="nav-link" href="/listings/new"><i class="fa-solid fa-plus"></i> Airbnb your home</a>
+        <% if(!currUser) {%>
+          <a class="nav-link" href="/signup"><b><i class="fa-solid fa-user-plus"></i> Sign up</b></a>
+          <a class="nav-link" href="/login"><b><i class="fa-solid fa-right-to-bracket"></i> Log in</b></a>
           <% } %>
-          <% if(currUser) { %>
-          <a class="nav-link" href="/logout"><b>Log Out</b></a> 
-          <% } %>
-        </div>
+            <% if(currUser) { %>
+              <div class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                  aria-expanded="false">
+                  <i class="fa-solid fa-circle-user" style="font-size: 1.2rem;"></i> <b>
+                    <%= currUser.username %>
+                  </b>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end shadow border-0 mt-2" style="border-radius: 1rem;">
+                  <li><a class="dropdown-item" href="/profile/<%= currUser._id %>"><i
+                        class="fa-solid fa-user-circle me-2"></i> Profile</a></li>
+                  <li>
+                    <hr class="dropdown-divider">
+                  </li>
+                  <li><a class="dropdown-item text-danger" href="/logout"><i
+                        class="fa-solid fa-right-from-bracket me-2"></i> Log Out</a></li>
+                </ul>
+              </div>
+              <% } %>
       </div>
     </div>
-  </nav>
+  </div>
+</nav>

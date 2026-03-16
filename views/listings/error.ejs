@@ -1,8 +1,12 @@
 <% layout("/layouts/boilerplate.ejs") %>
-<div class="row mt-3">
-    <div class="alert alert-danger col-6 offset-3 " role="alert">
-        <h4 class="alert-heading"><%= err.message %></h4>
-        <p><%= err.stack %></p>
-        <p><%= err %></p>
+
+    <div class="error-container">
+        <div class="error-card">
+            <i class="fa-solid fa-triangle-exclamation"></i>
+            <h4>
+                <%= err.message %>
+            </h4>
+            <p>Something went wrong. The page you're looking for might not exist or an error occurred.</p>
+            <a href="/listings" class="btn-back"><i class="fa-solid fa-arrow-left"></i> Back to Listings</a>
+        </div>
     </div>
-</div>

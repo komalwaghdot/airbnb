@@ -1,144 +1,176 @@
 <% layout("/layouts/boilerplate.ejs") %>
-<%= success%>
 
-<body>
-    <style>
-        #filters{
-            display:flex;
-            flex-wrap:wrap ;
-        }
+    <div id="filters-container">
+        <% const categories=[ { id: "Trending" , icon: "fa-fire" }, { id: "Rooms" , icon: "fa-bed" }, {
+            id: "Iconic Cities" , icon: "fa-mountain-city" }, { id: "Mountains" , icon: "fa-mountain" }, { id: "Nature"
+            , icon: "fa-tree" }, { id: "Pool" , icon: "fa-person-swimming" }, { id: "Camping" , icon: "fa-campground" },
+            { id: "Farm" , icon: "fa-cow" }, { id: "Arctic" , icon: "fa-snowman" }, { id: "Dome" , icon: "fa-igloo" }, {
+            id: "Boat" , icon: "fa-ship" } ]; %>
 
-        .filter{
-            text-align: center;
-            margin-right:2rem;
-            margin-top:2rem;
-            opacity:0.7;
-        }
+            <% for(let cat of categories) { %>
+                <div class="filter-box <%= typeof category !== 'undefined' && category === cat.id ? 'active' : '' %>">
+                    <a
+                        href="/listings?category=<%= encodeURIComponent(cat.id) %><%= typeof search !== 'undefined' && search ? '&search='+encodeURIComponent(search) : '' %><%= typeof sort !== 'undefined' && sort ? '&sort='+encodeURIComponent(sort) : '' %>">
+                        <i class="fa-solid <%= cat.icon %>"></i>
+                        <p>
+                            <%= cat.id %>
+                        </p>
+                    </a>
+                </div>
+                <% } %>
 
-        .filter:hover{
-            opacity:1;
-            cursor: pointer;
-        }
-        .tax-info{
-           display:none; 
-        }
-        .tax-toggle{
-            border:1px solid black;
-            border-radius: 1rem;
-            height:2.5rem;
-            padding: 1rem;
-            margin-left:3rem;
-            display:flex;
-            align-items:centre;
-            margin-top: 2.4rem;
-            
-            
-        }
-
-
-    </style>
-
-
-    <div id="filters">
-        <div class="filter">
-           <div> <i class="fa-solid fa-fire"></i></div>
-           <p>Trending</p>
-        </div>
-        <div class="filter">
-           <div> <i class="fa-solid fa-bed"></i></div>
-           <p>Rooms</p>
-        </div>
-        <div class="filter">
-           <div> <i class="fa-solid fa-mountain-city"></i></div>
-           <p>Iconic cities</p>
-        </div>
-         <div class="filter">
-           <div> <i class="fa-solid fa-mountain"></i></div>
-           <p>Mountains</p>
-        </div>
-         <div class="filter">
-           <div> <i class="fa-solid fa-tree"></i></div>
-           <p>Nature</p>
-        </div>
-         <div class="filter">
-           <div> <i class="fa-solid fa-person-swimming"></i></div>
-           <p>swimming pool</p>
-        </div>
-        <div class="filter">
-           <div> <i class="fa-solid fa-campground"></i></div>
-           <p>Campign</p>
-        </div>
-         <div class="filter">
-           <div> <i class="fa-solid fa-cow"></i></div>
-           <p>Farm</p>
-        </div>
-         <div class="filter">
-           <div> <i class="fa-solid fa-snowman"></i></div>
-           <p>Arctict</p>
-        </div>
-        <div class="filter">
-           <div> <i class="fa-solid fa-igloo"></i></div>
-           <p>Dome</p>
-        </div>
-         <div class="filter">
-           <div> <i class="fa-solid fa-ship"></i></div>
-           <p>Boat</p>
-        </div>
-
-        <div class="tax-toggle">
-            <div class="form-check-reverse form-switch">
-            <input class="form-check-input" type="checkbox" role="switch" id="switchCheckDefault">
-            <label class="form-check-label" for="switchCheckDefault">Display total after taxes</label>
-        </div>
-              
-        
+                    <% if ((typeof category !=='undefined' && category) || (typeof search !=='undefined' && search)) {
+                        %>
+                        <div class="filter-box" style="margin-left: auto;">
+                            <a href="/listings">
+                                <i class="fa-solid fa-circle-xmark text-danger" style="font-size: 1.4rem;"></i>
+                                <p>Reset</p>
+                            </a>
+                        </div>
+                        <% } %>
     </div>
 
-    <div class="row row-cols-lg-3 row-cols-md-3 row-cols-sm-1 mt-3">
-        
-       
-        <% for(let listing of allListings) { %>  
-        <a href="/listings/<%=listing._id%>" class="listing-link">
-            <div class="card col listing-card" >
-                <img src="<%=listing.image.url%>" class="card-img-top" alt="listing_image" style="height:20rem">
-                <div class="card-img-overlay"></div>
-                <div class="card-body">
-                    <b><%= listing.title %></b>
-                    <br>
-                    &#8377;<%= listing.price.toLocaleString("en-IN") %>/night
-                    <i class="tax-info">&nbsp:&nbsp;+18% GST</i>
-                  
+    <div class="controls-bar">
+        <div class="d-flex gap-3 align-items-center flex-wrap">
+            <form action="/listings" method="GET" class="d-flex align-items-center m-0">
+                <% if(typeof search !=='undefined' && search) { %><input type="hidden" name="search"
+                        value="<%= search %>">
+                    <% } %>
+                        <% if(typeof category !=='undefined' && category) { %><input type="hidden" name="category"
+                                value="<%= category %>">
+                            <% } %>
+                                <select name="sort" class="form-select sort-select" onchange="this.form.submit()">
+                                    <option value="newest" <%=typeof sort !=='undefined' && sort==='newest' ? 'selected'
+                                        : '' %>>Newest First</option>
+                                    <option value="price_asc" <%=typeof sort !=='undefined' && sort==='price_asc'
+                                        ? 'selected' : '' %>>Price: Low to High</option>
+                                    <option value="price_desc" <%=typeof sort !=='undefined' && sort==='price_desc'
+                                        ? 'selected' : '' %>>Price: High to Low</option>
+                                </select>
+            </form>
+
+            <div class="tax-toggle">
+                <div class="form-check-reverse form-switch m-0">
+                    <input class="form-check-input" type="checkbox" role="switch" id="switchCheckDefault">
+                    <label class="form-check-label" for="switchCheckDefault">Display total after taxes</label>
                 </div>
             </div>
+        </div>
 
-        </a>  
-        <%}%>
-          
-    
-
+        <% if(typeof search !=='undefined' && search) { %>
+            <div class="text-muted small">
+                Results for "<b>
+                    <%= search %>
+                </b>"
+            </div>
+            <% } %>
     </div>
-    
 
+    <div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1 mt-3 g-4">
+        <% if(typeof allListings !=='undefined' && allListings.length===0) { %>
+            <div class="col-12 mt-5 text-center" style="width: 100%;">
+                <br><br>
+                <h4 style="color: #484848;">No listings found <i class="fa-regular fa-face-frown text-muted"></i></h4>
+                <p class="text-muted mt-2">Try adjusting your filters, clearing your search query, or checking back
+                    later.</p>
+                <a href="/listings" class="btn btn-outline-dark mt-3" style="border-radius:2rem;">Clear all filters</a>
+            </div>
+            <% } %>
 
+                <% if (typeof allListings !=='undefined' ) { %>
+                    <% for(let listing of allListings) { %>
+                        <div class="col">
+                            <a href="/listings/<%=listing._id%>" class="listing-link">
+                                <div class="card listing-card h-100">
+                                    <div class="image-wrapper">
+                                        <img src="<%=listing.image.url%>" class="card-img-top" alt="<%=listing.title%>"
+                                            style="height:20rem; object-fit: cover;">
+                                        <div class="card-img-overlay">
+                                            <% if(currUser) { %>
+                                                <form action="/profile/wishlist/<%=listing._id%>" method="POST"
+                                                    style="position: absolute; top: 1rem; right: 1rem; z-index: 10;">
+                                                    <button class="btn wishlist-btn p-0" type="submit"
+                                                        style="background: none; border: none;">
+                                                        <i class="fa-<%= (currUser.wishlist && currUser.wishlist.some(id => id.toString() === listing._id.toString())) ? 'solid' : 'regular' %> fa-heart"
+                                                            style="font-size: 1.5rem; color: #fe424d; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));"></i>
+                                                    </button>
+                                                </form>
+                                                <% } %>
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                        <b>
+                                            <%= listing.title %>
+                                        </b>
+                                        <% if (listing.category) { %>
+                                            <span class="badge rounded-pill bg-light text-dark ms-2 fw-normal"
+                                                style="border:1px solid #ddd;">
+                                                <%= listing.category %>
+                                            </span>
+                                            <% } %>
+                                                <div class="listing-location text-muted mt-1"><i
+                                                        class="fa-solid fa-location-dot"></i>
+                                                    <%= listing.location %>, <%= listing.country %>
+                                                </div>
+                                                <div class="listing-price mt-2"
+                                                    style="font-size: 1.1rem; color: #fe424d; font-weight: 600;">
+                                                    &#8377;<%= listing.price.toLocaleString("en-IN") %> <span
+                                                            style="font-weight: 400; color: #222; font-size: 0.95rem;">/
+                                                            night</span>
+                                                        <i class="tax-info text-muted"
+                                                            style="display: none; font-size: 0.85rem; font-weight: 400;">&nbsp;+18%
+                                                            GST</i>
+                                                </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        <%}%>
+                            <% } %>
+    </div>
 
+    <!-- Pagination Controls -->
+    <% if (typeof totalPages !=='undefined' && totalPages> 1) { %>
+        <nav class="mt-5 mb-5 d-flex justify-content-center">
+            <ul class="pagination">
+                <li class="page-item <%= currentPage === 1 ? 'disabled' : '' %>">
+                    <a class="page-link shadow-sm"
+                        href="/listings?page=<%= currentPage - 1 %><%= typeof category !== 'undefined' && category ? '&category=' + encodeURIComponent(category) : '' %><%= typeof search !== 'undefined' && search ? '&search=' + encodeURIComponent(search) : '' %><%= typeof sort !== 'undefined' && sort ? '&sort=' + encodeURIComponent(sort) : '' %>">
+                        <i class="fa-solid fa-chevron-left text-muted"></i>
+                    </a>
+                </li>
 
-    
-    
-</body>
+                <% for(let i=1; i <=totalPages; i++) { %>
+                    <li class="page-item <%= currentPage === i ? 'active' : '' %>">
+                        <a class="page-link shadow-sm"
+                            href="/listings?page=<%= i %><%= typeof category !== 'undefined' && category ? '&category=' + encodeURIComponent(category) : '' %><%= typeof search !== 'undefined' && search ? '&search=' + encodeURIComponent(search) : '' %><%= typeof sort !== 'undefined' && sort ? '&sort=' + encodeURIComponent(sort) : '' %>">
+                            <%= i %>
+                        </a>
+                    </li>
+                    <% } %>
 
-<script>
-    let taxSwitch=document.getElementById("switchCheckDefault");
-    taxSwitch.addEventListener("click",()=>{
-        let taxInfo=document.getElementsByClassName("tax-info");
-        for(info of taxInfo){
-            if(info.style.display!="inline"){
-                 info.style.display="inline";
-            } else{
-             info.style.dispaly="none";
-            }
-        }    
-});
+                        <li class="page-item <%= currentPage === totalPages ? 'disabled' : '' %>">
+                            <a class="page-link shadow-sm"
+                                href="/listings?page=<%= currentPage + 1 %><%= typeof category !== 'undefined' && category ? '&category=' + encodeURIComponent(category) : '' %><%= typeof search !== 'undefined' && search ? '&search=' + encodeURIComponent(search) : '' %><%= typeof sort !== 'undefined' && sort ? '&sort=' + encodeURIComponent(sort) : '' %>">
+                                <i class="fa-solid fa-chevron-right text-muted"></i>
+                            </a>
+                        </li>
+            </ul>
+        </nav>
+        <% } %>
 
-
-
-</script>
+            <script>
+                document.addEventListener("DOMContentLoaded", () => {
+                    let taxSwitch = document.getElementById("switchCheckDefault");
+                    taxSwitch.addEventListener("change", (e) => {
+                        let taxInfos = document.querySelectorAll(".tax-info");
+                        for (let info of taxInfos) {
+                            if (e.target.checked) {
+                                info.style.display = "inline";
+                            } else {
+                                info.style.display = "none";
+                            }
+                        }
+                    });
+                });
+            </script>

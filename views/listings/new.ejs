@@ -1,37 +1,67 @@
 <% layout("/layouts/boilerplate.ejs") %>
 
-<div class="row">
-    <div class="col-8 offset-2">
-        <h3>Create New Listing</h3>
-        <form method="POST" action="/listings" novalidate class="needs-validation" enctype="multipart/form-data">
-            <div class="mb-3">
-                <label for="title" class="form-label">Title</label>
-                <input name="listing[title]" type="text" class="form-control" placeholder="Enter title" required/>
+    <div class="row">
+        <div class="col-8 offset-2">
+            <div class="form-card">
+                <h3><i class="fa-solid fa-plus-circle" style="color: #fe424d;"></i> Create New Listing</h3>
+                <form method="POST" action="/listings" novalidate class="needs-validation"
+                    enctype="multipart/form-data">
+                    <div class="mb-3">
+                        <label for="title" class="form-label">Title</label>
+                        <input name="listing[title]" type="text" class="form-control"
+                            placeholder="Give your place a catchy title" required />
+                    </div>
+                    <div class="mb-3">
+                        <label for="description" class="form-label">Description</label>
+                        <textarea name="listing[description]" class="form-control" rows="4"
+                            placeholder="Describe what makes your place special" required></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="image" class="form-label">Upload Image</label>
+                        <div class="file-upload-area">
+                            <i class="fa-solid fa-cloud-arrow-up"
+                                style="font-size: 1.5rem; color: #717171; margin-bottom: 0.5rem; display: block;"></i>
+                            <input name="listing[image]" type="file" class="form-control"
+                                style="border: none; background: transparent; text-align: center;" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="mb-3 col-md-4">
+                            <label for="category" class="form-label">Category</label>
+                            <select name="listing[category]" class="form-select" required>
+                                <option value="" disabled selected>Select Category</option>
+                                <option value="Trending">Trending</option>
+                                <option value="Rooms">Rooms</option>
+                                <option value="Iconic Cities">Iconic Cities</option>
+                                <option value="Mountains">Mountains</option>
+                                <option value="Nature">Nature</option>
+                                <option value="Pool">Pool</option>
+                                <option value="Camping">Camping</option>
+                                <option value="Farm">Farm</option>
+                                <option value="Arctic">Arctic</option>
+                                <option value="Dome">Dome</option>
+                                <option value="Boat">Boat</option>
+                            </select>
+                        </div>
+                        <div class="mb-3 col-md-4">
+                            <label for="price" class="form-label">Price (₹ per night)</label>
+                            <input name="listing[price]" type="number" class="form-control" placeholder="e.g. 2500"
+                                required />
+                        </div>
+                        <div class="mb-3 col-md-4">
+                            <label for="country" class="form-label">Country</label>
+                            <input name="listing[country]" type="text" class="form-control" placeholder="e.g. India"
+                                required />
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="location" class="form-label">Location</label>
+                        <input name="listing[location]" type="text" class="form-control"
+                            placeholder="e.g. Goa, Manali, Jaipur" required />
+                    </div>
+                    <button class="btn add-btn mt-3" type="submit"><i class="fa-solid fa-paper-plane"></i> Add
+                        Listing</button>
+                </form>
             </div>
-            <div class="mb-3">
-                <label for="description" class="form-label">Description</label>
-                <textarea name="listing[description]" class="form-control" placeholder="Enter description" required></textarea>
-            </div>
-            <div class="mb-3">
-                <label for="image" class="form-label">Upload Image file</label>
-                <input name="listing[image]" type="file" class="form-control" placeholder="Enter image URL" />
-                required
-            </div>
-            <div class="row">
-                <div class="mb-3 col-md-4">
-                    <label for="price" class="form-label">Price</label>
-                    <input name="listing[price]" type="number" class="form-control" placeholder="Enter price" required />
-                </div>
-                <div class="mb-3 col-md-8">
-                    <label for="country" class="form-label">Country</label>
-                    <input name="listing[country]" type="text" class="form-control" placeholder="Enter country" required />
-                </div>
-            </div>
-            <div class="mb-3">
-                <label for="location" class="form-label">Location</label>
-                <input name="listing[location]" type="text" class="form-control" placeholder="Enter location" required />
-            </div>
-            <button class="btn btn-danger add-btn mt-3" type="submit">Add Listing</button>
-        </form>
+        </div>
     </div>
-</div>

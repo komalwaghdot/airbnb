@@ -16,12 +16,18 @@ const Review = require("./models/review.js");
 const listingRouter = require("./routes/listing.js");
 const reviewRouter = require("./routes/review.js");
 const userRouter = require("./routes/user.js");
+const profileRouter = require("./routes/profile.js");
+const bookingRouter = require("./routes/booking.js");
 const session = require("express-session");
 const MongoStore = require("connect-mongo");
 const flash = require("connect-flash");
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
 const User = require("./models/user.js");
+const helmet = require("helmet");
+const morgan = require("morgan");
+const mongoSanitize = require('express-mongo-sanitize');
+const rateLimit = require('express-rate-limit');
 
 const dbUrl = process.env.ATLASDB_URL;
 
@@ -34,6 +40,20 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
 app.use(express.static(path.join(__dirname, "public")));
+app.use(morgan("dev"));
+app.use(mongoSanitize());
+
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 100,
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+app.use("/listings", limiter);
+
+app.use(helmet({
+  contentSecurityPolicy: false,
+}));
 
 // ================== SESSION CONFIG ==================
 const store = MongoStore.create({
@@ -125,6 +145,8 @@ app.get("/testlisting", async (req, res) => {
 app.use("/listings", listingRouter);
 app.use("/listings/:id/reviews", reviewRouter);
 app.use("/", userRouter);
+app.use("/profile", profileRouter);
+app.use("/bookings", bookingRouter);
 
 // ================== ERROR HANDLING ==================
 app.all("*", (req, res, next) => {

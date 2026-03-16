@@ -1,25 +1,15 @@
-
 <% if(success && success.length){%>
+    <div class="alert alert-success flash-alert alert-dismissible fade show col-8 offset-2" role="alert">
+        <i class="fa-solid fa-circle-check"></i>
+        <%=success%>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    <%}%>
 
-<div class="alert alert-success alert-dismissible fade show col-6 offset-3" role="alert">
-    <%=success%>
-    <button 
-    type="button"  class="btn-close" data-bs-dismiss="alert" aria-label="Close">
-     </button>
-
-</div>
-
-<%}%>
-
-
-<% if(error && error.length){%>
-
-<div class="alert alert-danger alert-dismissible fade show col-6 offset-3" role="alert">
-    <%=error%>
-    <button 
-    type="button"  class="btn-close" data-bs-dismiss="alert" aria-label="Close">
-     </button>
-
-</div>
-
-<%}%>
+        <% if(error && error.length){%>
+            <div class="alert alert-danger flash-alert alert-dismissible fade show col-8 offset-2" role="alert">
+                <i class="fa-solid fa-circle-exclamation"></i>
+                <%=error%>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            <%}%>
