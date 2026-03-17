@@ -6,7 +6,7 @@ const review = require("./models/review.js");
 
 module.exports.isLoggedIn = (req, res, next) => {
   if (!req.isAuthenticated()) {
-    req.session.redirectUrl = req.originialUrl;
+    req.session.redirectUrl = req.originalUrl;
     req.flash("error", "you must be logged in to create listing!");
     return res.redirect("/login");
   }

@@ -126,6 +126,14 @@ app.get("/", (req, res) => {
   res.redirect("/listings");
 });
 
+app.get("/about", (req, res) => {
+  res.render("pages/about.ejs");
+});
+
+app.get("/contact", (req, res) => {
+  res.render("pages/contact.ejs");
+});
+
 app.get("/testlisting", async (req, res) => {
   let sampleListing = new Listing({
     title: "New Villa",
@@ -144,9 +152,9 @@ app.get("/testlisting", async (req, res) => {
 
 app.use("/listings", listingRouter);
 app.use("/listings/:id/reviews", reviewRouter);
+app.use("/bookings", bookingRouter);
 app.use("/", userRouter);
 app.use("/profile", profileRouter);
-app.use("/bookings", bookingRouter);
 
 // ================== ERROR HANDLING ==================
 app.all("*", (req, res, next) => {

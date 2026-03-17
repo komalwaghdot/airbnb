@@ -1,0 +1,196 @@
+<% layout("/layouts/boilerplate.ejs") %>
+
+<style>
+    body {
+        background-color: #f8f9fa; /* Light grey background for overall page contrast */
+    }
+    .about-hero {
+        background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1469041797191-50ace28483c3?q=80&w=2070&auto=format&fit=crop');
+        background-size: cover;
+        background-position: center;
+        height: 450px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        text-align: center;
+        border-radius: 2rem;
+        margin-bottom: 4rem;
+        box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+    }
+    .about-hero h1 {
+        font-size: 4rem;
+        font-weight: 800;
+        letter-spacing: -1px;
+        margin-bottom: 1rem;
+    }
+    .section-title {
+        position: relative;
+        padding-bottom: 0.75rem;
+        margin-bottom: 1.5rem;
+        font-weight: 800;
+        color: #222;
+    }
+    .section-title::after {
+        content: '';
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 60px;
+        height: 4px;
+        background-color: #fe424d;
+        border-radius: 2px;
+    }
+    .content-card {
+        background: white;
+        padding: 3rem;
+        border-radius: 2rem;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+        margin-bottom: 4rem;
+    }
+    .value-card {
+        border: none;
+        border-radius: 1.5rem;
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        background: white;
+        height: 100%;
+        border-top: 6px solid #fe424d;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    }
+    .value-card:hover {
+        transform: translateY(-12px);
+        box-shadow: 0 20px 40px rgba(254, 66, 77, 0.15);
+    }
+    .icon-box {
+        width: 80px;
+        height: 80px;
+        background: rgba(254, 66, 77, 0.1);
+        border-radius: 1.2rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 1.5rem;
+        color: #fe424d;
+        font-size: 2.2rem;
+        transition: all 0.3s ease;
+    }
+    .value-card:hover .icon-box {
+        background: #fe424d;
+        color: white;
+        transform: rotate(5deg);
+    }
+    .stat-card {
+        background: white;
+        padding: 2.5rem;
+        border-radius: 1.5rem;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.03);
+        border: 1px solid #f0f0f0;
+        transition: all 0.3s ease;
+    }
+    .stat-card:hover {
+        border-color: #fe424d;
+        background: #fffcfc;
+    }
+    .stat-number {
+        font-size: 3rem;
+        font-weight: 900;
+        color: #fe424d;
+        line-height: 1;
+        margin-bottom: 0.5rem;
+    }
+    .stat-label {
+        font-weight: 600;
+        color: #666;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        font-size: 0.85rem;
+    }
+</style>
+
+<div class="container mt-4 mb-5">
+    <!-- Hero Section -->
+    <div class="about-hero">
+        <div class="px-3">
+            <h1>Belong Anywhere</h1>
+            <p class="lead fw-normal">Wanderlust is building the future of community-driven travel</p>
+        </div>
+    </div>
+
+    <!-- Our Story Section -->
+    <div class="content-card">
+        <div class="row align-items-center">
+            <div class="col-lg-6 mb-4 mb-lg-0">
+                <h2 class="section-title">Our Story</h2>
+                <p class="fs-5 text-dark" style="line-height: 1.7; opacity: 0.85;">Founded in 2024, Wanderlust started with a simple vision: what if you could find authentic comfort in every corner of the globe? We've grown from a startup into a community that celebrates diversity and connection.</p>
+                <p class="text-muted" style="line-height: 1.8;">Our mission is to empower individuals to explore the world while supporting local economies. We believe that shared experiences in unique spaces foster empathy and global understanding.</p>
+                <div class="mt-4">
+                    <a href="/listings" class="btn btn-danger btn-lg rounded-pill px-5 py-3 shadow" style="background-color: #fe424d; border: none; font-weight: 600;">Start Your Journey</a>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="position-relative">
+                    <img src="https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?q=80&w=2070&auto=format&fit=crop" class="img-fluid rounded-5 shadow-lg" alt="Wanderlust Story">
+                    <div class="position-absolute bottom-0 end-0 bg-white p-3 m-3 rounded-4 shadow-sm border-start border-5 border-danger" style="max-width: 200px;">
+                        <p class="m-0 fw-bold text-dark small italic">"Creating memories that last a lifetime."</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Our Values Section -->
+    <div class="mb-5">
+        <h2 class="section-title text-center mx-auto mb-5" style="width: fit-content;">Driven by Values</h2>
+        <div class="row g-4 mt-2">
+            <div class="col-md-4">
+                <div class="card value-card p-5 text-center">
+                    <div class="icon-box"><i class="fa-solid fa-people-group"></i></div>
+                    <h4 class="fw-bold">Community First</h4>
+                    <p class="text-muted mb-0">We build relationships, not just platforms. Our community is the heart of every decision we make.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card value-card p-5 text-center">
+                    <div class="icon-box"><i class="fa-solid fa-shield-halved"></i></div>
+                    <h4 class="fw-bold">Trust & Safety</h4>
+                    <p class="text-muted mb-0">Your peace of mind is paramount. We invest heavily in security, verification, and 24/7 support.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card value-card p-5 text-center">
+                    <div class="icon-box"><i class="fa-solid fa-earth-americas"></i></div>
+                    <h4 class="fw-bold">Sustainability</h4>
+                    <p class="text-muted mb-0">We advocate for conscious travel that preserves local beauty and bolsters small businesses.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Stats Section -->
+    <div class="row g-4 mt-5 mb-5">
+        <div class="col-6 col-md-3">
+            <div class="stat-card text-center">
+                <div class="stat-number">10K+</div>
+                <div class="stat-label">Unique Stays</div>
+            </div>
+        </div>
+        <div class="col-6 col-md-3">
+            <div class="stat-card text-center">
+                <div class="stat-number">50+</div>
+                <div class="stat-label">Destinations</div>
+            </div>
+        </div>
+        <div class="col-6 col-md-3">
+            <div class="stat-card text-center">
+                <div class="stat-number">100K+</div>
+                <div class="stat-label">Happy Explorers</div>
+            </div>
+        </div>
+        <div class="col-6 col-md-3">
+            <div class="stat-card text-center">
+                <div class="stat-number">4.9/5</div>
+                <div class="stat-label">Guest Rating</div>
+            </div>
+        </div>
+    </div>
+</div>

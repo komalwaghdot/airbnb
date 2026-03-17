@@ -1,0 +1,169 @@
+<% layout("/layouts/boilerplate.ejs") %>
+
+<div class="row mt-4 mb-5">
+    <div class="col-md-8 offset-md-2 mb-3">
+        <a href="/listings/<%= listing._id %>" class="text-decoration-none text-muted fw-600">
+            <i class="fa-solid fa-chevron-left me-1"></i> Back to listing
+        </a>
+    </div>
+    <div class="col-md-8 offset-md-2">
+        <div class="booking-container bg-white shadow-lg p-0" style="border-radius: 2rem; overflow: hidden;">
+            <div class="row g-0">
+                <!-- Left: Listing Summary -->
+                <div class="col-lg-5 p-4" style="background: #f8f9fa;">
+                    <h4 class="mb-4 fw-bold">Review your stay</h4>
+                    <div class="listing-summary-card mb-4">
+                        <img src="<%= listing.image.url %>" class="img-fluid rounded-4 mb-3 shadow-sm" style="height: 200px; width: 100%; object-fit: cover;">
+                        <h5 class="fw-bold"><%= listing.title %></h5>
+                        <p class="text-muted small"><i class="fa-solid fa-location-dot me-1"></i> <%= listing.location %>, <%= listing.country %></p>
+                        <hr>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="text-muted">Price per night</span>
+                            <span class="fw-bold" id="basePrice">&#8377;<%= listing.price.toLocaleString("en-IN") %></span>
+                        </div>
+                    </div>
+                    
+                    <div class="alert alert-light border-0 shadow-sm rounded-4 small">
+                        <i class="fa-solid fa-shield-halved text-danger me-2"></i>
+                        <strong>Wanderlust Protection</strong>
+                        <p class="mb-0 mt-1 text-muted">Your booking is protected by our host guarantee and 24/7 support.</p>
+                    </div>
+                </div>
+
+                <!-- Right: Booking Form -->
+                <div class="col-lg-7 p-5">
+                    <h3 class="fw-bold mb-4">Book your stay</h3>
+                    
+                    <form action="/bookings/<%= listing._id %>" method="POST" class="needs-validation" novalidate id="bookingForm">
+                        <div class="row g-3">
+                            <div class="col-6">
+                                <label class="form-label fw-600">Check-in</label>
+                                <input type="date" name="booking[checkIn]" id="checkIn" class="form-control form-control-lg rounded-3" required min="<%= new Date().toISOString().split('T')[0] %>">
+                            </div>
+                            <div class="col-6">
+                                <label class="form-label fw-600">Check-out</label>
+                                <input type="date" name="booking[checkOut]" id="checkOut" class="form-control form-control-lg rounded-3" required>
+                            </div>
+                            <div class="col-12 mt-4">
+                                <label class="form-label fw-600">Total Guests</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-white border-end-0"><i class="fa-solid fa-users text-muted"></i></span>
+                                    <input type="number" name="booking[guests]" class="form-control form-control-lg border-start-0 rounded-end-3" value="1" min="1" max="10" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="price-breakdown mt-5 p-4 rounded-4" style="background: #fffafa; border: 1px solid rgba(254, 66, 77, 0.1);">
+                            <div class="d-flex justify-content-between mb-2">
+                                <span class="text-muted">Accommodation</span>
+                                <span id="accommodationTotal">&#8377;0</span>
+                            </div>
+                            <div class="d-flex justify-content-between mb-2">
+                                <span class="text-muted">Service Fee / GST (18%)</span>
+                                <span id="taxTotal">&#8377;0</span>
+                            </div>
+                            <hr>
+                            <div class="d-flex justify-content-between">
+                                <span class="fw-bold h5 mb-0">Total (INR)</span>
+                                <span class="fw-bold h5 mb-0 text-danger" id="finalTotal">&#8377;0</span>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-reserve-confirm w-100 mt-4 py-3 shadow">
+                            Confirm and Pay
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .fw-600 { font-weight: 600; }
+    
+    .btn-reserve-confirm {
+        background: #fe424d;
+        color: white;
+        border: none;
+        border-radius: 1rem;
+        font-weight: 700;
+        font-size: 1.2rem;
+        transition: all 0.3s ease;
+    }
+
+    .btn-reserve-confirm:hover {
+        background: #e33640;
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(254, 66, 77, 0.4);
+    }
+
+    .form-control:focus {
+        border-color: #fe424d;
+        box-shadow: 0 0 0 0.25rem rgba(254, 66, 77, 0.1);
+    }
+
+    .booking-container {
+        border: 1px solid #eee;
+    }
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const checkIn = document.getElementById('checkIn');
+        const checkOut = document.getElementById('checkOut');
+        const pricePerNight = <%= listing.price %>;
+        
+        function calculateTotal() {
+            if (checkIn.value && checkOut.value) {
+                const date1 = new Date(checkIn.value);
+                const date2 = new Date(checkOut.value);
+                
+                if (date2 > date1) {
+                    const diffTime = Math.abs(date2 - date1);
+                    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+                    
+                    const accommodation = diffDays * pricePerNight;
+                    const tax = accommodation * 0.18;
+                    const total = accommodation + tax;
+                    
+                    document.getElementById('accommodationTotal').innerText = `\u20B9${accommodation.toLocaleString("en-IN")}`;
+                    document.getElementById('taxTotal').innerText = `\u20B9${tax.toLocaleString("en-IN")}`;
+                    document.getElementById('finalTotal').innerText = `\u20B9${total.toLocaleString("en-IN")}`;
+                } else {
+                    resetTotals();
+                }
+            } else {
+                resetTotals();
+            }
+        }
+
+        function resetTotals() {
+            document.getElementById('accommodationTotal').innerText = '\u20B90';
+            document.getElementById('taxTotal').innerText = '\u20B90';
+            document.getElementById('finalTotal').innerText = '\u20B90';
+        }
+
+        checkIn.addEventListener('change', (e) => {
+            checkOut.min = e.target.value;
+            calculateTotal();
+        });
+
+        checkOut.addEventListener('change', calculateTotal);
+
+        // Bootstrap Validation
+        (() => {
+            'use strict'
+            const forms = document.querySelectorAll('.needs-validation')
+            Array.from(forms).forEach(form => {
+                form.addEventListener('submit', event => {
+                    if (!form.checkValidity()) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                    }
+                    form.classList.add('was-validated')
+                }, false)
+            })
+        })()
+    });
+</script>

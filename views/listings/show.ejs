@@ -38,6 +38,15 @@
       </div>
     </div>
 
+    <!-- Booking Button for Guests -->
+    <% if (currUser && currUser.role === 'user' && listing.owner && listing.owner._id.toString() !== currUser._id.toString()) { %>
+      <div class="col-8 offset-2 mt-3">
+        <a href="/bookings/<%= listing._id %>/book" class="btn btn-reserve shadow-sm text-center">
+          <i class="fa-solid fa-calendar-check me-2"></i>Reserve Now
+        </a>
+      </div>
+    <% } %>
+
     <!-- Edit & Delete Buttons -->
     <% if (currUser && listing.owner && listing.owner._id.toString()===currUser._id.toString()) { %>
       <div class="col-8 offset-2 mt-3">
@@ -50,6 +59,31 @@
         </div>
       </div>
       <% } %>
+
+    <style>
+      .btn-reserve {
+        background-color: #fe424d !important;
+        color: white !important;
+        border: none !important;
+        padding: 0.8rem 2rem !important;
+        border-radius: 0.8rem !important;
+        font-weight: 700 !important;
+        font-size: 1.1rem !important;
+        transition: all 0.3s ease !important;
+        width: 100%;
+        display: block;
+      }
+
+      .btn-reserve:hover {
+        background-color: #e33640 !important;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(254, 66, 77, 0.3) !important;
+      }
+
+      .btn-reserve:active {
+        transform: translateY(0);
+      }
+    </style>
 
         <br />
 
@@ -149,7 +183,7 @@
             <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
               integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
             <script>
-              const coordinates = <% - JSON.stringify(listing.geometry && listing.geometry.coordinates ? listing.geometry.coordinates : [0, 0]) %>;
+              const coordinates = <%- JSON.stringify(listing.geometry && listing.geometry.coordinates ? listing.geometry.coordinates : [0, 0]) %>;
               const title = "<%= listing.title %>";
 
               document.addEventListener("DOMContentLoaded", () => {
